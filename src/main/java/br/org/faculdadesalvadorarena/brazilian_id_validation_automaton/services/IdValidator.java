@@ -44,11 +44,9 @@ public class IdValidator {
                 case Q2:
                     if (isDigit) {
                         current = State.Q3;
-                        idType = IdType.CPF;
                     } else if (isDot) {
-                        hasDot = true;
                         idType = IdType.RG;
-                        current = State.Q4;
+                        current = State.Q21;
                     } else {
                         current = State.ERROR;
                     }
@@ -56,10 +54,10 @@ public class IdValidator {
 
                 case Q3:
                     if (isDigit) {
-                        current = State.Q5;
-                    } else if (isDot && idType == IdType.CPF) {
-                        hasDot = true;
                         current = State.Q4;
+                    } else if (isDot) {
+                        idType = IdType.CPF;
+                        current = State.Q13;
                     } else {
                         current = State.ERROR;
                     }
@@ -90,9 +88,7 @@ public class IdValidator {
                     break;
 
                 case Q7:
-                    if (isDigit && !hasDot) {
-                        current = State.Q9;
-                    } else if (isDot && hasDot) {
+                    if (isDigit) {
                         current = State.Q8;
                     } else {
                         current = State.ERROR;
@@ -101,7 +97,18 @@ public class IdValidator {
 
                 case Q8:
                     if (isDigit) {
+                        if (hasNext) {
+                            idType = IdType.CPF;
+                        } else {
+                            idType = IdType.RG;
+                        }
                         current = State.Q9;
+                    } else if (isX) {
+                        idType = IdType.RG;
+                        current = State.Q12;
+                    } else if (isDash) {
+                        idType = IdType.RG;
+                        current = State.Q29;
                     } else {
                         current = State.ERROR;
                     }
@@ -109,52 +116,152 @@ public class IdValidator {
 
                 case Q9:
                     if (isDigit) {
+                        current = State.Q11;
+                    } else if (isDash) {
                         current = State.Q10;
                     } else {
                         current = State.ERROR;
                     }
                     break;
+
                 case Q10:
-                    if (isDigit && !hasNext && !hasDot) {
-                        idType = IdType.RG;
-                    }
-                    else if (isDigit) {
+                    if (isDigit) {
                         current = State.Q11;
-                    } else if (isX && !hasNext) {
-                        idType = IdType.RG;
-                    } else if (isDash && !hasDot) {
-                        idType = IdType.RG;
-                        current = State.Q12;
-                    }
-                    else {
+                    } else {
                         current = State.ERROR;
                     }
                     break;
 
                 case Q11:
-                    if (isDigit && !hasDot) {
-                        current = State.Q13;
-                    } else if ((isDash && hasDot) || (isDash && !hasDot)) {
+                    if (isDigit) {
                         current = State.Q12;
                     } else {
                         current = State.ERROR;
                     }
                     break;
                 case Q12:
-                    if (isDigit || (isX && !hasNext)) {
-                        current = State.Q13;
-                    } else {
-                        current = State.ERROR;
-                    }
+                    current = State.ERROR;
                     break;
                 case Q13:
-                    if (isDigit || idType == IdType.CPF) {
+                    if (isDigit) {
+                        idType = IdType.CPF;
                         current = State.Q14;
                     } else {
                         current = State.ERROR;
                     }
                     break;
-
+                case Q14:
+                    if (isDigit) {
+                        current = State.Q15;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q15:
+                    if (isDigit) {
+                        current = State.Q16;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q16:
+                    if (isDot) {
+                        current = State.Q17;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q17:
+                    if (isDigit) {
+                        current = State.Q18;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q18:
+                    if (isDigit) {
+                        current = State.Q19;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q19:
+                    if (isDigit) {
+                        current = State.Q20;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q20:
+                    if (isDash) {
+                        current = State.Q10;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q21:
+                    if (isDigit) {
+                        current = State.Q22;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q22:
+                    if (isDigit) {
+                        current = State.Q23;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q23:
+                    if (isDigit) {
+                        current = State.Q24;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q24:
+                    if (isDot) {
+                        current = State.Q25;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q25:
+                    if (isDigit) {
+                        current = State.Q26;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q26:
+                    if (isDigit) {
+                        current = State.Q27;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q27:
+                    if (isDigit) {
+                        current = State.Q28;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q28:
+                    if (isDash) {
+                        current = State.Q29;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
+                case Q29:
+                    if (isDigit || isX) {
+                        current = State.Q12;
+                    } else {
+                        current = State.ERROR;
+                    }
+                    break;
                 default:
                     current = State.ERROR;
                     break;
