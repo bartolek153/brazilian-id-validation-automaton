@@ -12,7 +12,6 @@ public class IdValidator {
         System.out.println(input);
         State current = State.Q0;
         IdType idType = null;
-        boolean hasDot = false;
 
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
@@ -273,6 +272,11 @@ public class IdValidator {
             }
         }
 
-        return new ValidationResultDto(true, idType, current);
+        // Check if we are in a valid final state
+        if (current == State.Q9 || current == State.Q12) {
+            return new ValidationResultDto(true, idType, current);
+        }
+
+        return new ValidationResultDto(false, null, current);
     }
 }
